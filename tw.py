@@ -1,7 +1,7 @@
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import csv
-with open("tusciaweb.csv","w", newline="",encoding="utf-8") as f:
+with open("tusciawebprova.csv","w", newline="",encoding="utf-8") as f:
     csv=csv.writer(f) 
     csv.writerow(["Articoli"])
     for year in range(2012,2021):
@@ -23,11 +23,15 @@ with open("tusciaweb.csv","w", newline="",encoding="utf-8") as f:
                 print(titolo.text)
                 csv.writerow([titolo.text])
                 
-            for i in range(2,11):
-                page=urlopen(paginetta+"page/"+str(i)+"/")
-                soup=BeautifulSoup(page,"html.parser")
-                titoli=soup.findAll(attrs={"rel":"bookmark"})
-                for titolo in titoli[::2]:
-                    print(titolo.text)
-                    csv.writerow([titolo.text])
+            for i in range(2,30):
+                try:
+                    page=urlopen(paginetta+"page/"+str(i)+"/")
+                except:
+                    print("fine pagine di questo mese")
+                else:
+                    soup=BeautifulSoup(page,"html.parser")
+                    titoli=soup.findAll(attrs={"rel":"bookmark"})
+                    for titolo in titoli[::2]:
+                        print(titolo.text)
+                        csv.writerow([titolo.text])
 
